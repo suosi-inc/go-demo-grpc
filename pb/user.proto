@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "./pb";
+
+import "google/protobuf/timestamp.proto";
+
+message GetRequest {
+  int64 id = 1;
+}
+
+message GetResponse {
+  bool state = 1;
+  User data = 2;
+  string message = 3;
+}
+
+service UserService {
+  // Test 测试方法
+  rpc Get(GetRequest) returns (GetResponse) {};
+}
+
+// 用户
+message User {
+  int64 id = 1;
+  string name = 2;
+  float weight = 3;
+  bool hasSuper = 4;
+
+  UserStatus status = 5;
+
+  Role role = 6;
+
+  User createdBy = 7;
+
+  repeated string menuList = 8;
+
+  map<string, string> customConfig = 9;
+
+  google.protobuf.Timestamp createdTime = 10;
+}
+
+// 枚举状态
+enum UserStatus {
+  UNKNOWN = 0;
+  ENABLE = 1;
+  DISABLE = 2;
+}
+
+// 角色
+message Role {
+  int64 id = 1;
+  string name = 2;
+}
