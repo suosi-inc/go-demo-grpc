@@ -5,6 +5,8 @@ import (
 
 	"github.com/suosi-inc/go-demo/grpc/internal/rpc/msg"
 	pb "github.com/suosi-inc/go-demo/grpc/protobuf"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -34,7 +36,7 @@ var user = &pb.User{
 	HasSuper:     false,
 	Status:       pb.UserStatus_ENABLE,
 	Role:         &pb.Role{Id: 2, Name: "user"},
-	CreatedBy:    nil,
+	CreatedBy:    admin,
 	MenuList:     []string{"feature1.*", "feature2.*"},
 	CustomConfig: map[string]string{"color": "black", "background": "white"},
 	CreatedTime:  &timestamppb.Timestamp{Seconds: 1667260800},
@@ -46,7 +48,7 @@ var guest = &pb.User{
 	HasSuper:     false,
 	Status:       pb.UserStatus_DISABLE,
 	Role:         &pb.Role{Id: 3, Name: "guest"},
-	CreatedBy:    nil,
+	CreatedBy:    admin,
 	MenuList:     []string{"empty.*"},
 	CustomConfig: map[string]string{"color": "red", "background": "green"},
 	CreatedTime:  &timestamppb.Timestamp{Seconds: 1667260800},
@@ -56,11 +58,31 @@ var userMap = map[int64]*pb.User{admin.Id: admin, user.Id: user, guest.Id: guest
 // endregion
 
 // Get 获取用户信息
-func (s *userService) Get(ctx context.Context, in *pb.GetUserRequest) (*pb.GetUserResponse, error) {
-	id := in.GetId()
+func (userService) Get(ctx context.Context, req *pb.GetUserRequest) (*pb.GetUserResponse, error) {
+	id := req.GetId()
 	if user, ok := userMap[id]; !ok {
 		return nil, msg.UserEmpty.Error()
 	} else {
 		return &pb.GetUserResponse{Data: user}, nil
 	}
+}
+
+// Search 用户列表
+func (userService) Search(ctx context.Context, req *pb.SearchUserRequest) (*pb.SearchUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+}
+
+// Add 添加用户
+func (userService) Add(ctx context.Context, req *pb.AddUserRequest) (*pb.AddUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+}
+
+// Edit 编辑用户
+func (userService) Edit(ctx context.Context, req *pb.EditUserRequest) (*pb.EditUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Edit not implemented")
+}
+
+// Remove 删除用户
+func (userService) Remove(ctx context.Context, req *pb.RemoveUserRequest) (*pb.RemoveUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Remove not implemented")
 }
