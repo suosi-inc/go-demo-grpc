@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/suosi-inc/go-demo/grpc/pb"
+	"github.com/suosi-inc/go-demo/grpc/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -23,13 +23,13 @@ func main() {
 	}
 	defer func() { _ = conn.Close() }()
 
-	userClient := pb.NewUserServiceClient(conn)
+	userClient := protobuf.NewUserServiceClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	result, err := userClient.Get(ctx, &pb.GetRequest{Id: 4})
+	result, err := userClient.Get(ctx, &protobuf.GetUserRequest{Id: 4})
 	if err != nil {
 		log.Fatalf("error: %s\n", err.Error())
 	}
-	log.Printf("Greeting: %+v\n", result)
+	log.Printf("result: %+v\n", result)
 }

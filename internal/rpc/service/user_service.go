@@ -1,25 +1,18 @@
-package main
+package service
 
 import (
 	"context"
-	"errors"
-	"flag"
-	"fmt"
-	"log"
-	"net"
 
-	"github.com/suosi-inc/go-demo/grpc/pb"
-	"google.golang.org/grpc"
+	"github.com/suosi-inc/go-demo/grpc/internal/rpc/msg"
+	pb "github.com/suosi-inc/go-demo/grpc/protobuf"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-var (
-	port = flag.Int("port", 50051, "The server port")
-)
-
-type server struct {
+type userService struct {
 	pb.UnimplementedUserServiceServer
 }
+
+var UserService = &userService{}
 
 // region 模拟的假数据
 var admin = &pb.User{
@@ -62,26 +55,12 @@ var userMap = map[int64]*pb.User{admin.Id: admin, user.Id: user, guest.Id: guest
 
 // endregion
 
-func (s *server) Get(ctx context.Context, in *pb.GetRequest) (*pb.GetResponse, error) {
+// Get 获取用户信息
+func (s *userService) Get(ctx context.Context, in *pb.GetUserRequest) (*pb.GetUserResponse, error) {
 	id := in.GetId()
 	if user, ok := userMap[id]; !ok {
-		return nil, errors.New("用户不存在")
+		return nil, msg.UserEmpty.Error()
 	} else {
-		return &pb.GetResponse{State: true, Message: "success", Data: user}, nil
-	}
-}
-
-func main() {
-	flag.Parse()
-	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-
-	s := grpc.NewServer()
-	pb.RegisterUserServiceServer(s, &server{})
-	log.Printf("server listening at %v", lis.Addr())
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		return &pb.GetUserResponse{Data: user}, nil
 	}
 }

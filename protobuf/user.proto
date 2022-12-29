@@ -1,23 +1,22 @@
 syntax = "proto3";
 
-package pb;
-option go_package = "./pb";
+package protobuf;
+option go_package = "./protobuf";
 
 import "google/protobuf/timestamp.proto";
+import "role.proto";
 
-message GetRequest {
+message GetUserRequest {
   int64 id = 1;
 }
 
-message GetResponse {
-  bool state = 1;
-  User data = 2;
-  string message = 3;
+message GetUserResponse {
+  User data = 1;
 }
 
 service UserService {
   // Test 测试方法
-  rpc Get(GetRequest) returns (GetResponse) {};
+  rpc Get(GetUserRequest) returns (GetUserResponse) {};
 }
 
 // 用户
@@ -45,10 +44,4 @@ enum UserStatus {
   UNKNOWN = 0;
   ENABLE = 1;
   DISABLE = 2;
-}
-
-// 角色
-message Role {
-  int64 id = 1;
-  string name = 2;
 }
