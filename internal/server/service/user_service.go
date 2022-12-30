@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"github.com/suosi-inc/go-demo/grpc/internal/rpc/msg"
+	"github.com/suosi-inc/go-demo/grpc/internal/server/msg"
 	pb "github.com/suosi-inc/go-demo/grpc/protobuf"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -59,8 +59,7 @@ var userMap = map[int64]*pb.User{admin.Id: admin, user.Id: user, guest.Id: guest
 
 // Get 获取用户信息
 func (userService) Get(ctx context.Context, req *pb.GetUserRequest) (*pb.GetUserResponse, error) {
-	id := req.GetId()
-	if user, ok := userMap[id]; !ok {
+	if user, ok := userMap[req.GetId()]; !ok {
 		return nil, msg.UserEmpty.Error()
 	} else {
 		return &pb.GetUserResponse{Data: user}, nil
@@ -69,7 +68,7 @@ func (userService) Get(ctx context.Context, req *pb.GetUserRequest) (*pb.GetUser
 
 // Search 用户列表
 func (userService) Search(ctx context.Context, req *pb.SearchUserRequest) (*pb.SearchUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+	return nil, status.Errorf(codes.Unimplemented, "method Search not implemented")
 }
 
 // Add 添加用户

@@ -73,7 +73,7 @@ message AddUserRequest {
   optional float weight = 2;
   bool hasSuper = 3;
   UserStatus status = 4;
-  int64 roleId = 5;
+  optional int64 roleId = 5;
   repeated string menuList = 6;
   map<string, string> customConfig = 7;
 }

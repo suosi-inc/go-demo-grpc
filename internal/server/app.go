@@ -1,4 +1,4 @@
-package rpc
+package server
 
 import (
 	"errors"
@@ -7,14 +7,10 @@ import (
 
 	"github.com/spf13/viper"
 	"github.com/suosi-inc/go-demo/grpc/internal/pkg/log"
-	"github.com/suosi-inc/go-demo/grpc/internal/rpc/config"
-	"github.com/suosi-inc/go-demo/grpc/internal/rpc/service"
+	"github.com/suosi-inc/go-demo/grpc/internal/server/config"
+	"github.com/suosi-inc/go-demo/grpc/internal/server/service"
 	pb "github.com/suosi-inc/go-demo/grpc/protobuf"
 	"google.golang.org/grpc"
-)
-
-var (
-	Cfg = config.Cfg
 )
 
 func NewServer() error {
@@ -28,18 +24,18 @@ func NewServer() error {
 // bootstrap Bootstrap app
 func bootstrap() {
 	// Config map into struct
-	err := viper.Unmarshal(&Cfg)
+	err := viper.Unmarshal(&config.Cfg)
 	if err != nil {
 		panic("Unable to decode config into struct: ")
 	}
-	log.Info("Config into struct: ", log.Any("cfg", Cfg))
+	log.Info("Config into struct: ", log.Any("cfg", config.Cfg))
 }
 
 func setupDi() {
 }
 
 func runServer() error {
-	lis, err := net.Listen("tcp", Cfg.Server.Port)
+	lis, err := net.Listen("tcp", config.Cfg.Server.Port)
 	if err != nil {
 		return errors.New(fmt.Sprintf("failed to listen: %v", err))
 	}

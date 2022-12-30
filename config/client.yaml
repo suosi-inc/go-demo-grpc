@@ -1,0 +1,11 @@
+userClient:
+  addr: localhost:50001
+  timeout: 5
+
+orderClient:
+  addr: localhost:50002
+  timeout: 5
+
+payClient:
+  addr: localhost:50003
+  timeout: 5

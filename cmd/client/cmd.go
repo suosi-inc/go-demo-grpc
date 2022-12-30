@@ -1,4 +1,4 @@
-package cmd
+package client
 
 import (
 	"bytes"
@@ -9,14 +9,14 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/suosi-inc/go-demo/grpc/internal/client"
 	"github.com/suosi-inc/go-demo/grpc/internal/pkg"
-	"github.com/suosi-inc/go-demo/grpc/internal/rpc"
 )
 
 const (
-	AppName      = "server"
-	AppShortDesc = "grpc-server-demo"
-	AppLongDesc  = "grpc-server-demo"
+	AppName      = "client"
+	AppShortDesc = "grpc-client-demo"
+	AppLongDesc  = "grpc-client-demo"
 )
 
 var (
@@ -32,9 +32,8 @@ var (
 
 			pkg.InitZapLogger()
 		},
-		RunE: func(cmd *cobra.Command, args []string) error {
-			// New app and run
-			return rpc.NewServer()
+		Run: func(cmd *cobra.Command, args []string) {
+			client.NewApp(args)
 		},
 	}
 )
