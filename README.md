@@ -1,6 +1,10 @@
 # go-demo-grpc
 
-## 准备
+> 服务端启动, 加参数 `server`
+
+> 客户端启动, 加参数 `client user:get`
+
+## 开发准备
 
 > protoc.exe，windows平台编译受限，很难自己手动编译，直接下载一个，地址：https://github.com/protocolbuffers/protobuf
 

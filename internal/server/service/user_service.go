@@ -68,7 +68,13 @@ func (userService) Get(ctx context.Context, req *pb.GetUserRequest) (*pb.GetUser
 
 // Search 用户列表
 func (userService) Search(ctx context.Context, req *pb.SearchUserRequest) (*pb.SearchUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Search not implemented")
+	userList := make([]*pb.User, 0)
+	total := int64(0)
+	for _, user := range userMap {
+		userList = append(userList, user)
+		total++
+	}
+	return &pb.SearchUserResponse{List: userList, Total: total}, nil
 }
 
 // Add 添加用户

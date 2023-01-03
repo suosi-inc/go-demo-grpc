@@ -113,10 +113,3 @@ out:
 		panic(fmt.Errorf("Merge config file error: %s \n", err))
 	}
 }
-
-func Execute() {
-	if err := AppCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-}
