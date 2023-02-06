@@ -1,6 +1,6 @@
 # read .env config
-ifneq (,$(wildcard ./build/docker/.env))
-    include ./build/docker/.env
+ifneq (,$(wildcard ./deploy/docker/.env))
+    include ./deploy/docker/.env
     export
 endif
 
