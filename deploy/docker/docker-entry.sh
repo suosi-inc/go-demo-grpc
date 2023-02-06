@@ -9,8 +9,13 @@ RUN_ARGS=${RUN_ARGS:=""}
 
  # web
 if [ "${CMD_ARGS}" = "server" ]; then
+
     HOST=${HOST:=""}
     PORT=${PORT:="50001"}
+
+    sed -i "s#{HOST}#$HOST#g" web.yaml
+    sed -i "s#{PORT}#$PORT#g" web.yaml
+
 else
     echo "app run fail..."
 fi
