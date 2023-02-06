@@ -4,7 +4,7 @@ services:
     image: ${IMAGE_NAME}:${IMAGE_TAG}
     build:
       context: .
-      dockerfile: build/docker/Dockerfile
+      dockerfile: deploy/docker/Dockerfile
       cache_from:
         - ${IMAGE_NAME}:${IMAGE_TAG}
     privileged: true
