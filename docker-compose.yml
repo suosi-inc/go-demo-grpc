@@ -1,0 +1,12 @@
+version: '3'
+services:
+  app:
+    image: ${IMAGE_NAME}:${IMAGE_TAG}
+    build:
+      context: .
+      dockerfile: build/docker/Dockerfile
+      cache_from:
+        - ${IMAGE_NAME}:${IMAGE_TAG}
+    privileged: true
+    ports:
+        - "8080:8080"

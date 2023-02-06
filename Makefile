@@ -14,7 +14,7 @@ SOURCE_MAIN_FILE=$(ROOT_DIR)/main.go
 
 STOP_CONTAINER=$(ROOT_DIR)/script/stop_container.sh
 
-ENV_DIR=$(ROOT_DIR)/build/docker
+ENV_DIR=$(ROOT_DIR)/deploy/docker
 ENV=$(ENV_DIR)/.env
 
 DOCKER_COMPOSE=$(ROOT_DIR)/docker-compose.yml
