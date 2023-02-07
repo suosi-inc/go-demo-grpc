@@ -6,13 +6,16 @@
 
 ## 开发准备
 
-> protoc.exe，windows平台编译受限，很难自己手动编译，直接下载一个，地址：https://github.com/protocolbuffers/protobuf
+> protoc.exe，windows平台编译受限，很难自己手动编译，直接下载一个，地址：`https://github.com/protocolbuffers/protobuf`
+
+> protoc-gen-go, 使用命令 `go install google.golang.org/protobuf/cmd/protoc-gen-go@latest`
 
 > 编译代码 `protoc ./protobuf/*.proto --proto_path="./protobuf" --go_out="." --go-grpc_out="."`
 
 ## TODO
 
 - [x] 服务端-客户端通信
+  - [ ] 身份校验
 - [x] 项目结构分层
 - [x] 加入配置文件
 - [x] 加入 di
@@ -21,8 +24,13 @@
 - [ ] go mod 父子级(解决 protobuf 之间的依赖)
   - [ ] 线上的 protobuf 如何交互
 - [x] client 放在 di 中
-- [ ] 服务端引用其他的服务
-- [ ] ci 部署
+  - [ ] 连接池
+  - [ ] 服务端引用其他的服务
+- [x] ci 部署
+- [ ] 存储介质交互
+  - [ ] mysql
+  - [ ] es
+  - [ ] redis
 - [ ] 错误日志入库
   - [ ] 区分系统
   - [ ] 区分节点
