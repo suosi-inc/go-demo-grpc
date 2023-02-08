@@ -6,7 +6,8 @@ import (
 )
 
 var (
-	UserEmpty = errCode{Code: 100001, Msg: "用户不存在"}
+	UserEmpty    = errCode{Code: 100001, Msg: "用户不存在"}
+	UserNotLogin = errCode{Code: codes.Unauthenticated, Msg: "用户授权失败"}
 )
 
 type errCode struct {

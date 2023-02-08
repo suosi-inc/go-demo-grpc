@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/suosi-inc/go-demo/grpc/internal/client/config"
+	"github.com/suosi-inc/go-demo/grpc/internal/client/interceptor"
 	"github.com/suosi-inc/go-demo/grpc/internal/pkg/di"
 	"github.com/suosi-inc/go-demo/grpc/internal/pkg/log"
 	pb "github.com/suosi-inc/go-demo/grpc/protobuf"
@@ -11,34 +12,31 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-// commonCredential 自定义认证
-type commonCredential struct{}
+// userCredential 自定义认证
+type userCredential struct{}
 
 // GetRequestMetadata 实现自定义认证接口
-func (c commonCredential) GetRequestMetadata(ctx context.Context, uri ...string) (map[string]string, error) {
+func (c userCredential) GetRequestMetadata(ctx context.Context, uri ...string) (map[string]string, error) {
 	return map[string]string{
-		"appid":  "myappid",
-		"appkey": "myappkey",
+		"app-id":  config.Cfg.UserClient.AppId,
+		"app-key": config.Cfg.UserClient.AppKey,
 	}, nil
 }
 
 // RequireTransportSecurity 自定义认证是否开启TLS
-func (c commonCredential) RequireTransportSecurity() bool {
+func (c userCredential) RequireTransportSecurity() bool {
 	return false
-}
-
-// ClientInterceptor 客户端拦截器
-func ClientInterceptor(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-	err := invoker(ctx, method, req, reply, cc, opts...)
-	return err
 }
 
 func UserClient(cfg config.ClientCfg) {
 	conn, err := grpc.Dial(
 		cfg.Addr,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-		grpc.WithPerRPCCredentials(new(commonCredential)),
-		// grpc.WithUnaryInterceptor(ClientInterceptor),
+		grpc.WithTransportCredentials(insecure.NewCredentials()), // 禁用安全证书
+		grpc.WithPerRPCCredentials(new(userCredential)),
+		grpc.WithChainUnaryInterceptor(
+			interceptor.Prof,
+			interceptor.Other,
+		),
 	)
 
 	// defer func() { _ = conn.Close() }()

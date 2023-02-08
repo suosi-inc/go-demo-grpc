@@ -44,8 +44,8 @@ func runServer() error {
 	server := grpc.NewServer(
 		// 注册拦截器
 		grpc.ChainUnaryInterceptor(
-			interceptor.Auth,
 			interceptor.Prof,
+			interceptor.Auth,
 		),
 	)
 	pb.RegisterUserServiceServer(server, service.UserService)

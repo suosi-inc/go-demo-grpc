@@ -1,6 +1,8 @@
 userClient:
   addr: localhost:50001
   timeout: 5
+  appId: appId
+  appKey: appKey
 
 orderClient:
   addr: localhost:50002

@@ -20,9 +20,6 @@ func Prof(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, hand
 	var end = time.Now().UnixMicro()
 	log.Infof("耗时 %d 微秒", end-start)
 
-	if err != nil {
-		return val, err
-	}
-
-	return val, nil
+	log.Info("退出时间拦截器")
+	return val, err
 }
