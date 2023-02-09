@@ -31,8 +31,11 @@ func (c userCredential) RequireTransportSecurity() bool {
 func UserClient(cfg config.ClientCfg) {
 	conn, err := grpc.Dial(
 		cfg.Addr,
-		grpc.WithTransportCredentials(insecure.NewCredentials()), // 禁用安全证书
+		// 禁用安全证书
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		// 带入认证元信息
 		grpc.WithPerRPCCredentials(new(userCredential)),
+		// 客户端过滤链(拦截器链)
 		grpc.WithChainUnaryInterceptor(
 			interceptor.Prof,
 			interceptor.Other,
