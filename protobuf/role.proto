@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package protobuf;
+option go_package = "./protobuf";
+
+service RoleService {
+  rpc Get(GetRoleRequest) returns (GetRoleResponse) {};
+}
+
+// 角色
+message Role {
+  int64 id = 1;
+  string name = 2;
+}
+
+message GetRoleRequest {
+  int64 id = 1;
+}
+
+message GetRoleResponse {
+  Role data = 2;
+}

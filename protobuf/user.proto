@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package protobuf;
+option go_package = "./protobuf";
+
+import "google/protobuf/timestamp.proto";
+import "role.proto";
+
+service UserService {
+  rpc Get(GetUserRequest) returns (GetUserResponse) {};
+  rpc Search(SearchUserRequest) returns (SearchUserResponse) {};
+  rpc Add(AddUserRequest) returns (AddUserResponse) {};
+  rpc Edit(EditUserRequest) returns (EditUserResponse) {};
+  rpc Remove(RemoveUserRequest) returns (RemoveUserResponse) {};
+}
+
+// 用户
+message User {
+  int64 id = 1;
+  string name = 2;
+  float weight = 3;
+  bool hasSuper = 4;
+
+  UserStatus status = 5;
+
+  Role role = 6;
+
+  User createdBy = 7;
+
+  repeated string menuList = 8;
+
+  map<string, string> customConfig = 9;
+
+  google.protobuf.Timestamp createdTime = 10;
+}
+
+// 枚举状态
+enum UserStatus {
+  UNKNOWN = 0;
+  ENABLE = 1;
+  DISABLE = 2;
+}
+
+message GetUserRequest {
+  int64 id = 1;
+}
+
+message GetUserResponse {
+  User data = 1;
+}
+
+message SearchUserRequest {
+  message CreatedTimeRange {
+    google.protobuf.Timestamp start = 1;
+    google.protobuf.Timestamp end = 2;
+  }
+
+  optional string name = 1;
+  optional UserStatus status = 2;
+  optional CreatedTimeRange createdTimeRange = 3;
+  repeated string menuList = 4;
+  int64 page = 5;
+  int64 size = 6;
+}
+
+message SearchUserResponse {
+  int64 total = 1;
+  repeated User list = 2;
+}
+
+message AddUserRequest {
+  string name = 1;
+  optional float weight = 2;
+  bool hasSuper = 3;
+  UserStatus status = 4;
+  optional int64 roleId = 5;
+  repeated string menuList = 6;
+  map<string, string> customConfig = 7;
+}
+
+message AddUserResponse {
+  int64 id = 1;
+}
+
+message EditUserRequest {
+  int64 id = 1;
+  optional string name = 2;
+  optional float weight = 3;
+  optional bool hasSuper = 4;
+  optional UserStatus status = 5;
+  optional int64 roleId = 6;
+  repeated string menuList = 7;
+  map<string, string> customConfig = 8;
+}
+
+message EditUserResponse {
+  bool success = 1;
+}
+
+message RemoveUserRequest {
+  int64 id = 1;
+}
+
+message RemoveUserResponse {
+  bool success = 1;
+}

@@ -1,0 +1,27 @@
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_DRIVER: overlay
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+stages:
+  - compile
+  - test
+  - deploy
+
+job:
+  only:
+    - main
+
+  #  设置当前任务为手动触发
+  #  when: manual
+
+  # 自动触发
+  when: always
+
+  allow_failure: false
+
+  stage: deploy
+
+  script:
+    - make devops

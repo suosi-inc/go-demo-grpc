@@ -1,0 +1,13 @@
+app:
+  name: grpc-server-demo
+
+logger:
+  file: server.log
+  format: text
+  level: info
+  maxSize: 128
+  maxAge: 3
+  maxBackups: 7
+
+server:
+  port: localhost:50001
